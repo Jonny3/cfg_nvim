@@ -9,7 +9,7 @@ See prerequesites for usage and installation there, e.g:
 
 ## installation
 
-[!NOTE] back up your current neovim configuration beforehand!
+> [!NOTE] back up your current neovim configuration beforehand!
 > git clone git@github.com:Jonny3/cfg_nvim.git ~/config/nvim
 
 
