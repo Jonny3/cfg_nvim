@@ -934,3 +934,9 @@ require('lazy').setup({
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+
+-- transparent background
+-- vim.api.nvim_set_hl(0, 'StatusLine', { bg = 'none' })
+-- vim.api.nvim_set_hl(0, 'StatusLineNC', { bg = 'none' })
+-- In your init.lua, after your tokyonight setup and colorscheme command
+vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' }) -- As a fallback/double-check
