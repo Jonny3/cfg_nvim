@@ -17,7 +17,6 @@ return {
     -- adding codelldb as debuger option
     local codelldb_path = vim.fn.expand '$MASON/packages/codelldb/extension/adapter/codelldb'
     local liblldb_path = vim.fn.expand '$MASON/packages/codelldb/extension/lldb/lib/libdllb.so'
-    local cfg = require 'rustaceanvim.config'
 
     dap.adapters.codelldb = {
       type = 'executable',
