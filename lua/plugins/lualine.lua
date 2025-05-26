@@ -24,7 +24,7 @@ return {
     local theme = {
       normal = {
         a = { bg = 'None', gui = 'bold' },
-        b = { bg = 'None', gui = 'bold' },
+        b = { bbg = 'None', gui = 'bold' },
         c = { bg = 'None', gui = 'bold' },
         x = { bg = 'None', gui = 'bold' },
         y = { bg = 'None', gui = 'bold' },
@@ -85,6 +85,7 @@ return {
 
     local mode_color = {
       n = colors.red,
+      -- n = colors.darkblue,
       i = colors.green,
       v = colors.blue,
       [''] = colors.blue,
@@ -106,34 +107,34 @@ return {
       t = colors.red,
     }
 
-    local function mason_updates()
-      local registry = require 'mason-registry'
-      registry.refresh()
-      local installed_packages = registry.get_installed_package_names()
+    -- local function mason_updates()
+    --   local registry = require 'mason-registry'
+    --   registry.refresh()
+    --   local installed_packages = registry.get_installed_package_names()
+    --
+    --   local packages_outdated = 0
+    --
+    --   for _, pkg in pairs(installed_packages) do
+    --     local p = registry.get_package(pkg)
+    --     local version = p.get_installed_version(p)
+    --     local latest = p.get_latest_version(p)
+    --
+    --     if version ~= latest then
+    --       packages_outdated = packages_outdated + 1
+    --     end
+    --   end
+    --
+    --   return packages_outdated
+    -- end
 
-      local packages_outdated = 0
-
-      for _, pkg in pairs(installed_packages) do
-        local p = registry.get_package(pkg)
-        local version = p.get_installed_version(p)
-        local latest = p.get_latest_version(p)
-
-        if version ~= latest then
-          packages_outdated = packages_outdated + 1
-        end
-      end
-
-      return packages_outdated
-    end
-
-    local function show_macro_recording()
-      local recording_register = vim.fn.reg_recording()
-      if recording_register == '' then
-        return ''
-      else
-        return '󰑋  ' .. recording_register
-      end
-    end
+    -- local function show_macro_recording()
+    --   local recording_register = vim.fn.reg_recording()
+    --   if recording_register == '' then
+    --     return ''
+    --   else
+    --     return '󰑋  ' .. recording_register
+    --   end
+    -- end
     local function get_buffers()
       local bufs = vim.api.nvim_list_bufs()
       local bufNumb = 0
@@ -206,11 +207,11 @@ return {
       },
       color = { bg = mode, gui = 'bold' },
     }
-    local macro_recording = {
-      show_macro_recording,
-      color = { fg = '#333333', bg = '#ff6666' },
-      separator = { left = '', right = '' },
-    }
+    -- local macro_recording = {
+    --   show_macro_recording,
+    --   color = { fg = '#333333', bg = '#ff6666' },
+    --   separator = { left = '', right = '' },
+    -- }
     local diff = {
       'diff',
       symbols = { added = ' ', modified = '󰝤 ', removed = ' ' },
@@ -241,17 +242,17 @@ return {
         end)
       end,
     }
-    local mason = {
-      mason_updates() .. '',
-      color = { fg = colors.violet, bg = 'None' },
-      cond = function()
-        return mason_updates() > 0
-      end,
-      icon = '',
-      on_click = function()
-        vim.cmd 'Mason'
-      end,
-    }
+    -- local mason = {
+    --   mason_updates() .. '',
+    --   color = { fg = colors.violet, bg = 'None' },
+    --   cond = function()
+    --     return mason_updates() > 0
+    --   end,
+    --   icon = '',
+    --   on_click = function()
+    --     vim.cmd 'Mason'
+    --   end,
+    -- }
     local buffers = {
       get_buffers(),
       color = { fg = colors.darkblue, bg = 'None' },
@@ -291,8 +292,10 @@ return {
       sections = {
         lualine_a = { mode },
         lualine_b = { filename, alpha, branch, lsp_status },
-        lualine_c = { diagnostics, sep, macro_recording },
-        lualine_x = { diff, fileformat, lazy, mason },
+        -- lualine_c = { diagnostics, sep, macro_recording },
+        lualine_c = { diagnostics, sep },
+        -- lualine_x = { diff, fileformat, lazy, mason },
+        lualine_x = { diff, fileformat, lazy },
         lualine_y = { buffers, filetype, progress },
         lualine_z = { location },
       },
