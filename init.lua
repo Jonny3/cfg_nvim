@@ -124,8 +124,15 @@ vim.opt.termguicolors = true
 -- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
 -- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
 --
+-- NOTE: keymap to remove dublicate lines
+vim.api.nvim_set_keymap('n', '<leader>rd', [[:g/^\(.*\)$\n\1/d<CR>]], { noremap = true, silent = true })
+
+-- NOTE: keymap to maximize current bufer
+vim.api.nvim_set_keymap('n', '<leader>bf', ':MaximizerToggle<CR>', { noremap = true, silent = true })
+
 -- source .vim files for additional commands
 vim.cmd 'source ~/.config/nvim/vim/copymatch.vim'
+vim.cmd 'source ~/.config/nvim/vim/maximizier.vim'
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
