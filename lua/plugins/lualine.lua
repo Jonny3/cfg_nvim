@@ -1,333 +1,121 @@
---- @type LazyPluginSpec
+-- Set lualine as statusline
 return {
-  'nvim-lualine/lualine.nvim',
-  dependencies = {
-    'nvim-tree/nvim-web-devicons',
-    'pnx/lualine-lsp-status',
-  },
-  config = function()
-    local lualine = require 'lualine'
-    local colors = {
-      bg = '#1e1e2e',
-      fg = '#cdd6f4',
-      yellow = '#f9e2af',
-      cyan = '#89dceb',
-      darkblue = '#89b4fa',
-      green = '#a6e3a1',
-      orange = '#fab387',
-      violet = '#f5c2e7',
-      magenta = '#cba6f7',
-      blue = '#74c7ec',
-      red = '#f38ba8',
-    }
+	"nvim-lualine/lualine.nvim",
+	config = function()
+		-- Adapted from: https://github.com/nvim-lualine/lualine.nvim/blob/master/lua/lualine/themes/onedark.lua
+		local colors = {
+			blue = "#61afef",
+			green = "#98c379",
+			purple = "#c678dd",
+			cyan = "#56b6c2",
+			red1 = "#e06c75",
+			red2 = "#be5046",
+			yellow = "#e5c07b",
+			fg = "#abb2bf",
+			bg = "#282c34",
+			gray1 = "#828997",
+			gray2 = "#2c323c",
+			gray3 = "#3e4452",
+		}
 
-    local theme = {
-      normal = {
-        a = { bg = 'None', gui = 'bold' },
-        b = { bbg = 'None', gui = 'bold' },
-        c = { bg = 'None', gui = 'bold' },
-        x = { bg = 'None', gui = 'bold' },
-        y = { bg = 'None', gui = 'bold' },
-        z = { bg = 'None', gui = 'bold' },
-      },
-      insert = {
-        a = { bg = 'None', gui = 'bold' },
-        b = { bg = 'None', gui = 'bold' },
-        c = { bg = 'None', gui = 'bold' },
-        x = { bg = 'None', gui = 'bold' },
-        y = { bg = 'None', gui = 'bold' },
-        z = { bg = 'None', gui = 'bold' },
-      },
-      visual = {
-        a = { bg = 'None', gui = 'bold' },
-        b = { bg = 'None', gui = 'bold' },
-        c = { bg = 'None', gui = 'bold' },
-        x = { bg = 'None', gui = 'bold' },
-        y = { bg = 'None', gui = 'bold' },
-        z = { bg = 'None', gui = 'bold' },
-      },
-      replace = {
-        a = { bg = 'None', gui = 'bold' },
-        b = { bg = 'None', gui = 'bold' },
-        c = { bg = 'None', gui = 'bold' },
-        x = { bg = 'None', gui = 'bold' },
-        y = { bg = 'None', gui = 'bold' },
-        z = { bg = 'None', gui = 'bold' },
-      },
-      command = {
-        a = { bg = 'None', gui = 'bold' },
-        b = { bg = 'None', gui = 'bold' },
-        c = { bg = 'None', gui = 'bold' },
-        x = { bg = 'None', gui = 'bold' },
-        y = { bg = 'None', gui = 'bold' },
-        z = { bg = 'None', gui = 'bold' },
-      },
-      inactive = {
-        a = { bg = 'None', gui = 'bold' },
-        b = { bg = 'None', gui = 'bold' },
-        c = { bg = 'None', gui = 'bold' },
-        x = { bg = 'None', gui = 'bold' },
-        y = { bg = 'None', gui = 'bold' },
-        z = { bg = 'None', gui = 'bold' },
-      },
-    }
+		local onedark_theme = {
+			normal = {
+				a = { fg = colors.bg, bg = colors.green, gui = "bold" },
+				b = { fg = colors.fg, bg = colors.gray3 },
+				c = { fg = colors.fg, bg = colors.gray2 },
+			},
+			command = { a = { fg = colors.bg, bg = colors.yellow, gui = "bold" } },
+			insert = { a = { fg = colors.bg, bg = colors.blue, gui = "bold" } },
+			visual = { a = { fg = colors.bg, bg = colors.purple, gui = "bold" } },
+			terminal = { a = { fg = colors.bg, bg = colors.cyan, gui = "bold" } },
+			replace = { a = { fg = colors.bg, bg = colors.red1, gui = "bold" } },
+			inactive = {
+				a = { fg = colors.gray1, bg = colors.bg, gui = "bold" },
+				b = { fg = colors.gray1, bg = colors.bg },
+				c = { fg = colors.gray1, bg = colors.gray2 },
+			},
+		}
 
-    local conditions = {
-      hide_in_width = function()
-        return vim.fn.winwidth(0) > 80
-      end,
-      alpha = function()
-        if vim.bo.filetype ~= 'alpha' then
-          return true
-        end
-      end,
-    }
+		-- Import color theme based on environment variable NVIM_THEME
+		local env_var_nvim_theme = os.getenv("NVIM_THEME") or "nord"
 
-    local mode_color = {
-      n = colors.red,
-      -- n = colors.darkblue,
-      i = colors.green,
-      v = colors.blue,
-      [''] = colors.blue,
-      V = colors.blue,
-      c = colors.magenta,
-      no = colors.red,
-      s = colors.orange,
-      S = colors.orange,
-      [''] = colors.orange,
-      ic = colors.yellow,
-      R = colors.violet,
-      Rv = colors.violet,
-      cv = colors.red,
-      ce = colors.red,
-      r = colors.cyan,
-      rm = colors.cyan,
-      ['r?'] = colors.cyan,
-      ['!'] = colors.red,
-      t = colors.red,
-    }
+		-- Define a table of themes
+		local themes = {
+			onedark = onedark_theme,
+			nord = "nord",
+		}
 
-    -- local function mason_updates()
-    --   local registry = require 'mason-registry'
-    --   registry.refresh()
-    --   local installed_packages = registry.get_installed_package_names()
-    --
-    --   local packages_outdated = 0
-    --
-    --   for _, pkg in pairs(installed_packages) do
-    --     local p = registry.get_package(pkg)
-    --     local version = p.get_installed_version(p)
-    --     local latest = p.get_latest_version(p)
-    --
-    --     if version ~= latest then
-    --       packages_outdated = packages_outdated + 1
-    --     end
-    --   end
-    --
-    --   return packages_outdated
-    -- end
+		local mode = {
+			"mode",
+			fmt = function(str)
+				-- return ' ' .. str:sub(1, 1) -- displays only the first character of the mode
+				return " " .. str
+			end,
+		}
 
-    -- local function show_macro_recording()
-    --   local recording_register = vim.fn.reg_recording()
-    --   if recording_register == '' then
-    --     return ''
-    --   else
-    --     return '󰑋  ' .. recording_register
-    --   end
-    -- end
-    local function get_buffers()
-      local bufs = vim.api.nvim_list_bufs()
-      local bufNumb = 0
-      local function buffer_is_valid(buf_id, buf_name)
-        return 1 == vim.fn.buflisted(buf_id) and buf_name ~= ''
-      end
-      for idx = 1, #bufs do
-        local buf_id = bufs[idx]
-        local buf_name = vim.api.nvim_buf_get_name(buf_id)
-        if buffer_is_valid(buf_id, buf_name) then
-          bufNumb = bufNumb + 1
-        end
-      end
+		local filename = {
+			"filename",
+			file_status = true, -- displays file status (readonly status, modified status)
+			path = 1, -- 0 = just filename, 1 = relative path, 2 = absolute path
+		}
 
-      if bufNumb == 1 then
-        return bufNumb .. ' '
-      else
-        return bufNumb .. ' '
-      end
-    end
+		local hide_in_width = function()
+			return vim.fn.winwidth(0) > 100
+		end
 
-    local mode = {
-      'mode',
-      separator = { left = '', right = '' },
-      right_padding = 2,
-      color = function()
-        return { bg = mode_color[vim.fn.mode()], fg = colors.bg }
-      end,
-    }
-    local filename = {
-      'filename',
-      color = { fg = colors.magenta, bg = 'None', gui = 'bold' },
-      cond = conditions.alpha,
-    }
-    local alpha = {
-      function()
-        return 'Alpha Dashboard'
-      end,
-      color = { fg = colors.magenta, bg = 'None', gui = 'bold' },
-      cond = function()
-        if vim.bo.filetype == 'alpha' then
-          return true
-        end
-      end,
-    }
-    local branch = {
-      'branch',
-      icon = '',
-      color = { fg = colors.violet, bg = 'None', gui = 'bold' },
-      on_click = function()
-        vim.cmd 'LazyGit'
-      end,
-    }
-    local lsp_status = {
-      'lsp-status',
-      color = { fg = colors.green, bg = 'None', gui = 'bold' },
-      on_click = function()
-        vim.cmd 'LspInfo'
-      end,
-      cond = conditions.alpha,
-    }
-    local diagnostics = {
-      'diagnostics',
-      sources = { 'nvim_diagnostic' },
-      symbols = { error = ' ', warn = ' ', info = ' ' },
-      diagnostics_color = {
-        color_error = { fg = colors.red, bg = 'None', gui = 'bold' },
-        color_warn = { fg = colors.yellow, bg = 'None', gui = 'bold' },
-        color_info = { fg = colors.cyan, bg = 'None', gui = 'bold' },
-      },
-      color = { bg = mode, gui = 'bold' },
-    }
-    -- local macro_recording = {
-    --   show_macro_recording,
-    --   color = { fg = '#333333', bg = '#ff6666' },
-    --   separator = { left = '', right = '' },
-    -- }
-    local diff = {
-      'diff',
-      symbols = { added = ' ', modified = '󰝤 ', removed = ' ' },
-      diff_color = {
-        added = { fg = colors.green, bg = 'None' },
-        modified = { fg = colors.orange, bg = 'None' },
-        removed = { fg = colors.red, bg = 'None' },
-      },
-      cond = conditions.hide_in_width,
-    }
-    local fileformat = {
-      'fileformat',
-      fmt = string.upper,
-      color = { fg = colors.green, bg = 'None', gui = 'bold' },
-      cond = conditions.alpha,
-    }
-    local lazy = {
-      require('lazy.status').updates,
-      cond = require('lazy.status').has_updates,
-      color = { fg = colors.violet, bg = 'None' },
-      on_click = function()
-        vim.ui.select({ 'Yes', 'No' }, { prompt = 'Update plugins?' }, function(choice)
-          if choice == 'Yes' then
-            vim.cmd 'Lazy sync'
-          else
-            vim.notify('Update cancelled', vim.log.levels.INFO, { title = 'Lazy' })
-          end
-        end)
-      end,
-    }
-    -- local mason = {
-    --   mason_updates() .. '',
-    --   color = { fg = colors.violet, bg = 'None' },
-    --   cond = function()
-    --     return mason_updates() > 0
-    --   end,
-    --   icon = '',
-    --   on_click = function()
-    --     vim.cmd 'Mason'
-    --   end,
-    -- }
-    local buffers = {
-      get_buffers(),
-      color = { fg = colors.darkblue, bg = 'None' },
-      on_click = function()
-        require('buffer_manager.ui').toggle_quick_menu()
-      end,
-    }
-    local filetype = {
-      'filetype',
-      color = { fg = colors.darkblue, bg = 'None' },
-      cond = conditions.alpha,
-    }
-    local progress = {
-      'progress',
-      color = { fg = colors.magenta, bg = 'None' },
-    }
-    local location = {
-      'location',
-      separator = { left = '', right = '' },
-      left_padding = 2,
-      color = function()
-        return { bg = mode_color[vim.fn.mode()], fg = colors.bg }
-      end,
-    }
-    local sep = {
-      '%=',
-      color = { fg = colors.bg, bg = 'None' },
-    }
+		local diagnostics = {
+			"diagnostics",
+			sources = { "nvim_diagnostic" },
+			sections = { "error", "warn" },
+			symbols = { error = " ", warn = " ", info = " ", hint = " " },
+			colored = false,
+			update_in_insert = false,
+			always_visible = false,
+			cond = hide_in_width,
+		}
 
-    lualine.setup {
-      options = {
-        theme = theme,
-        component_separators = '',
-        section_separators = { left = '', right = '' },
-        always_divide_middle = false,
-      },
-      sections = {
-        lualine_a = { mode },
-        lualine_b = { filename, alpha, branch, lsp_status },
-        -- lualine_c = { diagnostics, sep, macro_recording },
-        lualine_c = { diagnostics, sep },
-        -- lualine_x = { diff, fileformat, lazy, mason },
-        lualine_x = { diff, fileformat, lazy },
-        lualine_y = { buffers, filetype, progress },
-        lualine_z = { location },
-      },
-      inactive_sections = {
-        lualine_a = { filename },
-        lualine_b = {},
-        lualine_c = {},
-        lualine_x = {},
-        lualine_y = {},
-        lualine_z = { location },
-      },
-      tabline = {},
-      extensions = {},
-    }
+		local diff = {
+			"diff",
+			colored = false,
+			symbols = { added = " ", modified = " ", removed = " " }, -- changes diff symbols
+			cond = hide_in_width,
+		}
 
-    vim.api.nvim_create_autocmd('RecordingEnter', {
-      callback = function()
-        lualine.refresh()
-      end,
-    })
-
-    vim.api.nvim_create_autocmd('RecordingLeave', {
-      callback = function()
-        local timer = vim.loop.new_timer()
-        timer:start(
-          50,
-          0,
-          vim.schedule_wrap(function()
-            lualine.refresh()
-          end)
-        )
-      end,
-    })
-  end,
+		require("lualine").setup({
+			options = {
+				icons_enabled = true,
+				theme = themes[env_var_nvim_theme], -- Set theme based on environment variable
+				-- Some useful glyphs:
+				-- https://www.nerdfonts.com/cheat-sheet
+				--        
+				section_separators = { left = "", right = "" },
+				component_separators = { left = "", right = "" },
+				disabled_filetypes = { "alpha", "neo-tree", "Avante" },
+				always_divide_middle = true,
+			},
+			sections = {
+				lualine_a = { mode },
+				lualine_b = { "branch" },
+				lualine_c = { filename },
+				lualine_x = {
+					diagnostics,
+					diff,
+					{ "encoding", cond = hide_in_width },
+					{ "filetype", cond = hide_in_width },
+				},
+				lualine_y = { "location" },
+				lualine_z = { "progress" },
+			},
+			inactive_sections = {
+				lualine_a = {},
+				lualine_b = {},
+				lualine_c = { { "filename", path = 1 } },
+				lualine_x = { { "location", padding = 0 } },
+				lualine_y = {},
+				lualine_z = {},
+			},
+			tabline = {},
+			extensions = { "fugitive" },
+		})
+	end,
 }
