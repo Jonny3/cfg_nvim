@@ -1,28 +1,18 @@
 return {
-  'shaunsingh/nord.nvim',
-  lazy = false,
-  priority = 1000,
+  'folke/tokyonight.nvim',
+  priority = 1000, -- Make sure to load this before all the other start plugins.
   config = function()
-    vim.g.nord_contrast = true
-    vim.g.nord_borders = false
-    vim.g.nord_disable_background = true
-    vim.g.nord_italic = false
-    vim.g.nord_uniform_diff_background = true
-    vim.g.nord_bold = false
+    ---@diagnostic disable-next-line: missing-fields
+    require('tokyonight').setup {
+      transparent = true,
+      styles = {
+        sidebars = 'transparent',
+        floats = 'transparent',
+        comments = { italic = false }, -- Disable italics in comments
+      },
+    }
 
-    -- load the colorscheme
-    require('nord').set()
-
-    -- toggle background transparency
-    local bg_transparent = true
-
-    local toggle_transparency = function()
-      bg_transparent = not bg_transparent
-      vim.g.nord_disable_background = bg_transparent
-      vim.cmd [[colorscheme nord]]
-    end
-
-    -- keymapping for toggling
-    vim.keymap.set('n', '<leader>bg', toggle_transparency, { noremap = true, silent = true, desc = 'toggle background transperancy' })
+    -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
+    vim.cmd.colorscheme 'tokyonight-night'
   end,
 }

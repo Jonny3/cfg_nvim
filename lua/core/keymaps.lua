@@ -122,8 +122,8 @@ vim.keymap.set('n', '<leader>ss', ':mksession! .session.vim<CR>', { noremap = tr
 vim.keymap.set('n', '<leader>sl', ':source .session.vim<CR>', { noremap = true, silent = false })
 vim.keymap.set('n', '<leader>tp', ':tabp<CR>', opts) --  go to previous tab
 
--- keymap to remove dublicate lines
-vim.api.nvim_set_keymap('n', '<leader>rd', [[:g/^\(.*\)$\n\1/d<CR>]], { noremap = true, silent = true })
+-- FIX: keymap to remove dublicate lines
+-- vim.api.nvim_set_keymap('n', '<leader>rd', [[:g/^\(.*\)$\n\1/d<CR>]], { noremap = true, silent = true })
 
 -- keymap to maximize current bufer
 vim.api.nvim_set_keymap('n', '<leader>bf', ':MaximizerToggle<CR>', { noremap = true, silent = true })

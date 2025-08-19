@@ -1,7 +1,7 @@
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
-vim.o.hlsearch = false -- Set highlight on search
+vim.o.hlsearch = true -- Set highlight on search
 vim.wo.number = true -- Make line numbers default
 vim.o.mouse = 'a' -- Enable mouse mode
 vim.o.clipboard = 'unnamedplus' -- Sync clipboard between OS and Neovim.
