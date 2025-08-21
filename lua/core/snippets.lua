@@ -33,6 +33,14 @@ vim.diagnostic.config {
   end,
 }
 
+-- filetype assoccation
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+  pattern = { 'BUILD', 'BUILD.bazel', 'WORKSPACE', '*.bzl' },
+  callback = function()
+    vim.bo.filetype = 'starlark'
+  end,
+})
+
 -- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
