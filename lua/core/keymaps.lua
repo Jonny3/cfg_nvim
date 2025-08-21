@@ -126,4 +126,4 @@ vim.keymap.set('n', '<leader>tp', ':tabp<CR>', opts) --  go to previous tab
 -- vim.api.nvim_set_keymap('n', '<leader>rd', [[:g/^\(.*\)$\n\1/d<CR>]], { noremap = true, silent = true })
 
 -- keymap to maximize current bufer
-vim.api.nvim_set_keymap('n', '<leader>bf', ':MaximizerToggle<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>wf', ':MaximizerToggle<CR>', { noremap = true, silent = true })
