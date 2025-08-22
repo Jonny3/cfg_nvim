@@ -23,7 +23,7 @@ vim.keymap.set('n', '<leader>sn', '<cmd>noautocmd w <CR>', opts)
 vim.keymap.set('n', '<C-q>', '<cmd> q <CR>', opts)
 
 -- delete single character without copying into register
-vim.keymap.set('n', 'x', '"_x"', opts)
+-- vim.keymap.set('n', 'x', '"_x"', opts)
 
 -- vertical scroll and center
 vim.keymap.set('n', '<C-d>', '<C-d>zz', opts)
