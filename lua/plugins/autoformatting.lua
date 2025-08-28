@@ -32,7 +32,7 @@ return { -- Autoformat
       lua = { 'stylua' },
       -- Conform can also run multiple formatters sequentially
       -- python = { "isort", "black" },
-      python = { 'ruff_format' },
+      python = {'ruff','ruff_organize_imports' , 'ruff_format' },
       rust = { 'rustfmt', lsp_format = 'fallback' },
       starlark = { 'buildifier' },
 
