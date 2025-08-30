@@ -34,6 +34,8 @@ return {
           silent = true,
           desc = 'Neotree Open Git Status Window',
         },
+        { '<leader>fh', ':Neotree toggle position=left dir=%:p:h<CR>', silent = true, desc = 'Left File Explorer (Current Dir)' },
+        { '<leader>fs', ':Neotree toggle position=left dir=' .. vim.loop.cwd() .. '<CR>', silent = true, desc = 'Left File Explorer (Source Dir)' },
         { '<leader>e', '<leader>fe', desc = 'Explorer NeoTree (Root Dir)', remap = true },
       },
     },
