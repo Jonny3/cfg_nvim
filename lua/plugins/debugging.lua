@@ -11,12 +11,12 @@ return {
     local dapui = require 'dapui'
     dapui.setup()
     -- installing debugpy via mason
-    local pypath = vim.fn.expand '$MASON/packages/debugpy/venv/bin/python'
+    local pypath = vim.fn.expand(vim.fn.stdpath 'data') .. '/mason/packages/debugpy/venv/bin/python'
     require('dap-python').setup(pypath)
 
     -- adding codelldb as debuger option
-    local codelldb_path = vim.fn.expand '$MASON/packages/codelldb/extension/adapter/codelldb'
-    local liblldb_path = vim.fn.expand '$MASON/packages/codelldb/extension/lldb/lib/libdllb.so'
+    local codelldb_path = vim.fn.expand(vim.fn.stdpath 'data') .. '/mason/packages/codelldb/extension/adapter/codelldb'
+    local liblldb_path = vim.fn.expand(vim.fn.stdpath 'data') .. '/mason/packages/codelldb/extension/lldb/lib/libdllb.so'
 
     dap.adapters.codelldb = {
       type = 'executable',
