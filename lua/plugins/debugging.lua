@@ -88,6 +88,9 @@ return {
       dapui.close()
     end
 
+    vim.keymap.set('n', '<Leader>dq', function()
+      dap.terminate()
+    end, { desc = 'terminate' })
     vim.keymap.set('n', '<F5>', function()
       dap.continue()
     end, { desc = 'continue' })
