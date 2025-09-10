@@ -206,6 +206,7 @@ return {
       -- But for many setups, the LSP (`ts_ls`) will work just fine
 
       ruff = {},
+      debugpy = {},
       pyright = {
         settings = {
           pyright = {
@@ -214,7 +215,8 @@ return {
           python = {
             analysis = {
               ignore = { '*' }, -- Using Ruff
-              typeCheckingMode = 'off', -- Using mypy
+              -- typeCheckingMode = 'off', -- Using mypy
+              diagnositMode = { 'workspace' },
             },
           },
         },
