@@ -34,10 +34,18 @@ vim.diagnostic.config {
 }
 
 -- filetype assoccation
+-- BAZEL files
 vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
   pattern = { 'BUILD', 'BUILD.bazel', 'WORKSPACE', '*.bzl' },
   callback = function()
     vim.bo.filetype = 'starlark'
+  end,
+})
+-- C files
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+  pattern = { '*.c.tmpl', '*.tmpl.c' },
+  callback = function()
+    vim.bo.filetype = 'c'
   end,
 })
 

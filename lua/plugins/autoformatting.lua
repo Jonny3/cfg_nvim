@@ -34,6 +34,10 @@ return { -- Autoformat
       python = { 'ruff_fix', 'ruff_organize_imports', 'ruff_format' },
       rust = { 'rustfmt', lsp_format = 'fallback' },
       starlark = { 'buildifier' },
+      bazel = { 'buildifier' },
+      ['BUILD'] = { 'buildifier' },
+      ['WORKSPACE'] = { 'buldifier' },
+      c = { 'clang-format' },
 
       --
       -- You can use 'stop_after_first' to run the first available formatter from the list
