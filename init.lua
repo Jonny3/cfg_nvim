@@ -1,6 +1,8 @@
 require 'core.options'
 require 'core.keymaps'
 require 'core.snippets'
+require 'core.floatterminal'
+
 -- source .vim files for additional commands
 vim.cmd 'source ~/.config/nvim/vim/copymatch.vim'
 vim.cmd 'source ~/.config/nvim/vim/maximizier.vim'

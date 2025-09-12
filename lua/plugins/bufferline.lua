@@ -38,6 +38,12 @@ return {
         enforce_regular_tabs = true,
         always_show_bufferline = true,
         show_tab_indicators = false,
+        -- NOTE: this will be called a lot so don't do any heavy processing here
+        custom_filter = function(buf_number, buf_numbers)
+          if vim.bo[buf_number].buftype ~= 'terminal' then
+            return true
+          end
+        end,
         indicator = {
           -- icon = '▎', -- this should be omitted if indicator style is not 'icon'
           style = 'none', -- Options: 'icon', 'underline', 'none'
