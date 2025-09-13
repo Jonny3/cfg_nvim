@@ -1,5 +1,5 @@
 local win_state = {
-  floating = {
+  [1] = {
     buf = -1,
     win = -1,
   },
@@ -38,7 +38,7 @@ local function open_floating_window(opts)
   return { buf = buf, win = win }
 end
 
--- Call the function on startup
+-- Call the function on startup -> just for documentation purposes
 -- vim.api.nvim_create_autocmd('VimEnter', {
 --   callback = function()
 --     open_floating_window()
@@ -46,23 +46,47 @@ end
 -- })
 
 -- toggle terminal
-local toggle_terminal = function()
-  if not vim.api.nvim_win_is_valid(win_state.floating.win) then
-    win_state.floating = open_floating_window { buf = win_state.floating.buf }
-    if vim.bo[win_state.floating.buf].buftype ~= 'terminal' then
+local toggle_terminal = function(opts)
+  opts = opts or {}
+  local index = opts and opts.fargs and tonumber(opts.fargs[1]) or 1
+
+  if #win_state < index then
+    local new_win_state = {
+      buf = -1,
+      win = -1,
+    }
+    table.insert(win_state, new_win_state)
+
+    if index - #win_state == 1 then
+      index = #win_state
+    end
+  end
+
+  if not vim.api.nvim_win_is_valid(win_state[index].win) then
+    win_state[index] = open_floating_window { buf = win_state[index].buf }
+    if vim.bo[win_state[index].buf].buftype ~= 'terminal' then
       vim.cmd.terminal()
     end
   else
-    vim.api.nvim_win_hide(win_state.floating.win)
+    vim.api.nvim_win_hide(win_state[index].win)
   end
 end
 
 -- create user command
-vim.api.nvim_create_user_command('FloatTerminal', toggle_terminal, {})
+vim.api.nvim_create_user_command('FloatTerminal', toggle_terminal, { nargs = 1, desc = 'Opens terminal with given index.' })
 
 -- open floating terminal user shortcut
 vim.keymap.set('n', '<leader>tt', toggle_terminal, { desc = 'toggle terminal' })
+vim.keymap.set('n', '<leader>t1', function()
+  toggle_terminal { fargs = { 1 } }
+end, { desc = 'toggle terminal 1' })
+vim.keymap.set('n', '<leader>t2', function()
+  toggle_terminal { fargs = { 2 } }
+end, { desc = 'toggle terminal 2' })
+vim.keymap.set('n', '<leader>t3', function()
+  toggle_terminal { fargs = { 3 } }
+end, { desc = 'toggle terminal 3' })
 
--- test -> just for execution/testing, luafile
+-- test -> just for execution/testing, luafile ~/path/to/luafile
 -- win_state.floating = open_floating_window()
 -- print(vim.inspect(win_state.floating))
