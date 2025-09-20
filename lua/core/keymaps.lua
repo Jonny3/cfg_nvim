@@ -83,8 +83,8 @@ vim.keymap.set('v', '<', '<gv', opts)
 vim.keymap.set('v', '>', '>gv', opts)
 
 -- Move text up and down
-vim.keymap.set('v', '<A-j>', ':m .+1<CR>==', opts)
-vim.keymap.set('v', '<A-k>', ':m .-2<CR>==', opts)
+vim.keymap.set('v', '<S-A-j>', ':m .+1<CR>==<C-v>', opts)
+vim.keymap.set('v', '<S-A-k>', ':m .-2<CR>==<C-v>', opts)
 -- Keep last yanked when pasting
 vim.keymap.set('v', 'p', '"_dP', opts)
 
@@ -117,8 +117,8 @@ vim.keymap.set('n', ']d', function()
   vim.diagnostic.jump { count = 1, float = true }
 end, { desc = 'Go to next diagnostic message' })
 
-vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+vim.keymap.set('n', '<leader>D', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
+vim.keymap.set('n', '<leader>Q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
 -- Save and load session
 vim.keymap.set('n', '<leader>wS', ':mksession! .session.vim<CR>', { noremap = true, silent = false })

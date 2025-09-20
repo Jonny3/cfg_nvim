@@ -33,9 +33,6 @@ vim.diagnostic.config {
   end,
 }
 
--- load floatterminal
--- dofile 'lua/core/floatterminal.lua'
-
 -- filetype assoccation
 -- BAZEL files
 vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
