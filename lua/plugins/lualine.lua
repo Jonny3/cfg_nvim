@@ -52,12 +52,22 @@ return {
             end,
         }
 
-        local filename = {
+        local filename_deac = {
             "filename",
-            file_status = true, -- displays file status (readonly status, modified status)
-            path = 1,           -- 0 = just filename, 1 = relative path, 2 = absolute path
+            file_status = false, -- displays file status (readonly status, modified status)
+            path = 1,            -- 0 = just filename, 1 = relative path, 2 = absolute path
         }
 
+        local filename_acv = {
+            "filename",
+            path = 1,
+            symbols = {
+                modified = '', -- Text to show when the file is modified.
+                readonly = '', -- Text to show when the file is non-modifiable or readonly.
+                unnamed = '', -- Text to show for unnamed buffers.
+                newfile = '', -- Text to show for newly created file before first write
+            }
+        }
         local hide_in_width = function()
             return vim.fn.winwidth(0) > 100
         end
@@ -89,6 +99,11 @@ return {
             cond = buff_acv,
         }
 
+        local tabs = {
+            "tabs",
+            show_modified_status = false, -- Shows a symbol next to the tab name if the file has been modified.
+        }
+
         require("lualine").setup({
             options = {
                 icons_enabled = true,
@@ -102,9 +117,9 @@ return {
                 always_divide_middle = true,
             },
             sections = {
-                lualine_a = { mode },
-                lualine_b = { "branch" },
-                lualine_c = { filename, lsp },
+                lualine_a = { mode, "branch" },
+                lualine_b = { tabs },
+                lualine_c = { filename_acv, lsp },
                 lualine_x = {
                     diagnostics,
                     diff,
@@ -117,14 +132,14 @@ return {
             inactive_sections = {
                 lualine_a = {},
                 lualine_b = {},
-                lualine_c = { { "filename", path = 1 } },
+                lualine_c = { filename_deac },
                 lualine_x = { { "location", padding = 0 } },
                 lualine_y = {},
                 lualine_z = {},
             },
             tabline = {
-                lualine_a = { { "filename" } },
-                lualine_z = { { "tabs" } },
+                -- lualine_a = { { "filename" } },
+                -- lualine_z = { tabs },
             },
             extensions = { "fugitive", "nvim-tree" },
         })

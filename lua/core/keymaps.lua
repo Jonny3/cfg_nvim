@@ -36,6 +36,7 @@ vim.keymap.set("n", "<Tab>", ":bnext<CR>", opts)
 vim.keymap.set("n", "<S-Tab>", ":bprevious<CR>", opts)
 vim.keymap.set("n", "<leader>wx", ":bdelete!<CR>", opts)                                                                -- close buffer
 vim.keymap.set("n", "<leader>wb", "<cmd> enew <CR>", opts)                                                              -- new buffer
+vim.keymap.set("n", "<leader>wr", ":%bd | e# | bd#<CR>", opts)                                                          -- close all except open
 -- Increment/decrement numbers
 vim.keymap.set("n", "<leader>+", "<C-a>", opts)                                                                         -- increment
 vim.keymap.set("n", "<leader>-", "<C-x>", opts)                                                                         -- decrement
@@ -50,7 +51,8 @@ vim.keymap.set("n", "<C-j>", ":wincmd j<CR>", opts)
 vim.keymap.set("n", "<C-h>", ":wincmd h<CR>", opts)
 vim.keymap.set("n", "<C-l>", ":wincmd l<CR>", opts)
 -- Tabs
-vim.keymap.set("n", "<leader>to", ":tabnew<CR>", { noremap = true, silent = true, desc = "new tab" })     -- open new tab
+-- vim.keymap.set("n", "<leader>to", ":tabnew<CR>", { noremap = true, silent = true, desc = "new tab" })     -- open new tab
+vim.keymap.set("n", "<leader>to", ":tabe %<CR>", { noremap = true, silent = true, desc = "new tab" })     -- open new tab
 vim.keymap.set("n", "<leader>tx", ":tabclose<CR>", { noremap = true, silent = true, desc = "close tab" }) -- close current tab
 vim.keymap.set("n", "<leader>tn", ":tabn<CR>", { noremap = true, silent = true, desc = "next tab" })      --  go to next tab
 vim.keymap.set("n", "<leader>tp", ":tabp<CR>", { noremap = true, silent = true, desc = "prev tab" })      --  go to previous tab

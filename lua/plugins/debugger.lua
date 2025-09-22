@@ -11,8 +11,8 @@ return {
         local dapui = require 'dapui'
         dapui.setup()
         -- installing debugpy via mason
-        -- local pyvenv_path = vim.fn.expand(vim.fn.stdpath('data')) .. '/debugger/debugpy/venv/bin/python'
-        local pyvenv_path = '/home/jonas/.local/share/nvim/mason/packages/debugpy/venv/bin/python'
+        local pyvenv_path = vim.fn.expand(vim.fn.stdpath('data')) .. '/debugger/debugpy/venv/bin/python'
+        -- local pyvenv_path = '/home/jonas/.local/share/nvim/mason/packages/debugpy/venv/bin/python'
         require('dap-python').setup(pyvenv_path)
 
         vim.api.nvim_set_hl(0, 'DapBreakpointSymbol', { fg = '#FF0000', bg = 'NONE', bold = true })  -- Bright Red

@@ -66,6 +66,8 @@ local toggle_terminal = function(opts)
         win_state[index] = open_floating_window { buf = win_state[index].buf }
         if vim.bo[win_state[index].buf].buftype ~= 'terminal' then
             vim.cmd.terminal()
+            -- Set the 'buflisted' option to false for the newly created buffer
+            vim.api.nvim_set_option_value('buflisted', false, { buf = win_state[index].buf })
         end
     else
         vim.api.nvim_win_hide(win_state[index].win)
