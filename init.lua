@@ -4,8 +4,9 @@ require 'core.snippets'
 require 'core.floatterminal'
 
 -- source .vim files for additional commands
-vim.cmd 'source ~/.config/nvim/vim/copymatch.vim'
-vim.cmd 'source ~/.config/nvim/vim/maximizier.vim'
+local config_path = vim.fn.stdpath 'config'
+vim.cmd('source ' .. config_path .. '/vim/copymatch.vim')
+--vim.cmd('source ' .. config_path .. '/vim/maximizer.vim')
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
@@ -25,7 +26,7 @@ rtp:prepend(lazypath)
 require('lazy').setup({
   require 'plugins.neotree',
   require 'plugins.colortheme',
-  require 'plugins.bufferline',
+  -- require 'plugins.bufferline',
   require 'plugins.lualine',
   require 'plugins.treesitter',
   require 'plugins.telescope',
