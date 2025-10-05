@@ -45,6 +45,7 @@ vim.keymap.set("n", "<leader>wv", "<C-w>v", { noremap = true, silent = true, des
 vim.keymap.set("n", "<leader>wh", "<C-w>s", { noremap = true, silent = true, desc = "split horizontally" })             -- split window horizontally
 vim.keymap.set("n", "<leader>we", "<C-w>=", { noremap = true, silent = true, desc = "equalize split" })                 -- make split windows equal width & height
 vim.keymap.set("n", "<leader>ws", ":close<CR>", { noremap = true, silent = true, desc = "close current split window" }) -- close current split window
+vim.keymap.set('n', '<leader>wq', ':bp | sp | bn | bd<CR>', { desc = 'Close buffer without window' })
 -- Navigate between splits
 vim.keymap.set("n", "<C-k>", ":wincmd k<CR>", opts)
 vim.keymap.set("n", "<C-j>", ":wincmd j<CR>", opts)
@@ -83,13 +84,13 @@ vim.keymap.set("v", "<S-A-j>", ":m .+1<CR>==<C-v>", opts)
 -- Toggle diagnostics
 local diagnostics_active = true
 
-vim.keymap.set("n", "<leader>Do", function()
+vim.keymap.set("n", "<leader>do", function()
     diagnostics_active = not diagnostics_active
 
     if diagnostics_active then
-        vim.diagnostic.enable(0)
+        vim.diagnostic.enable(true)
     else
-        vim.diagnostic.disable(0)
+        vim.diagnostic.enable(false)
     end
 end)
 -- Diagnostic keymaps

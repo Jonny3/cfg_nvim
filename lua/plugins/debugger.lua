@@ -8,12 +8,13 @@ return {
     },
     config = function()
         local dap = require 'dap'
+        dap.defaults.fallback.exception_breakpoints = { 'raised' }
         local dapui = require 'dapui'
         dapui.setup()
-        -- installing debugpy via mason
+        -- installing debugpy without mason
         local pyvenv_path = vim.fn.expand(vim.fn.stdpath('data')) .. '/debugger/debugpy/venv/bin/python'
-        -- local pyvenv_path = '/home/jonas/.local/share/nvim/mason/packages/debugpy/venv/bin/python'
         require('dap-python').setup(pyvenv_path)
+
 
         vim.api.nvim_set_hl(0, 'DapBreakpointSymbol', { fg = '#FF0000', bg = 'NONE', bold = true })  -- Bright Red
         vim.api.nvim_set_hl(0, 'DapStoppedLineSymbol', { fg = '#00FF00', bg = 'NONE', bold = true }) -- Bright Green
@@ -96,5 +97,7 @@ return {
                 require('dapui').eval(nil, { enter = true, width = 80, height = 40, context = '' })
             end
         end, { desc = 'evaluate highlighted expression' })
+        vim.keymap.set('n', '<Leader>dx', ':DapTerminate<CR>', { desc = 'Exit current debug session.' })
+        vim.keymap.set('n', '<Leader>dr', function() dap.restart() end, { desc = 'Restart current debug session.' })
     end,
 }
